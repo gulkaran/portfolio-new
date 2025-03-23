@@ -47,7 +47,7 @@ export default function Hero() {
 
       <main className="flex-1 flex flex-col justify-center items-center px-6 relative z-10">
         <div className="max-w-6xl w-full">
-          <h1 className="text-5xl md:text-7xl font-bold mb-5 text-white/85 group">
+          <h1 className="text-5xl md:text-7xl font-bold mb-5 text-white/85 group w-fit">
             <span className="text-violet-500 group-hover:text-purple-500 transition-colors">
               [gulkaran
             </span>
@@ -60,11 +60,11 @@ export default function Hero() {
           </h1>
 
           <div className="flex h-5 items-center space-x-3">
-            <p className="text-xl text-muted-foreground">
+            <p className="text-lg md:text-xl text-muted-foreground">
               <span className="italic">/ gul-car-n /</span>
             </p>
             <Separator orientation="vertical" />
-            <p className="text-xl text-muted-foreground">
+            <p className="text-lg md:text-xl text-muted-foreground">
               software engineer and cs student
             </p>
           </div>

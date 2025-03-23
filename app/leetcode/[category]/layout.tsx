@@ -1,6 +1,9 @@
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
-import { getQuestionsForPattern } from "../lib";
+import { getLeetCodeData, getQuestionsForPattern } from "../lib";
+import { AppSidebar } from "@/components/leetcode/sidebar";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { Separator } from "@/components/ui/separator";
 
 export default async function CategoryLayout({
   children,
@@ -16,7 +19,9 @@ export default async function CategoryLayout({
     .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
     .join("-");
 
-  const categoryQuestions = getQuestionsForPattern(formattedCategory);
+  const data = await getLeetCodeData();
+  const categoryData = data[formattedCategory];
+  const categoryQuestions = getQuestionsForPattern(formattedCategory, data);
 
   return (
     <div className="min-h-screen p-6 my-15">
@@ -33,7 +38,7 @@ export default async function CategoryLayout({
                 <span className="flex items-end gap-2">
                   LeetCode
                   <p className="text-xl text-muted-foreground">
-                    / {formattedCategory.split("-").join(" ")}
+                    / {formattedCategory.split("-").join(" ").toLowerCase()}
                   </p>
                 </span>
               </h1>
@@ -43,7 +48,17 @@ export default async function CategoryLayout({
             </div>
           </div>
         </header>
-        {children}
+        <SidebarProvider>
+          <div className="flex flex-col lg:flex-row w-full">
+            <div className="w-full lg:w-80 lg:flex-shrink-0">
+              <AppSidebar data={categoryData} category={category} />
+            </div>
+            <Separator orientation="vertical" className="h-full" />
+            <div className="flex-1 min-w-0 ml-8">
+              <SidebarInset>{children}</SidebarInset>
+            </div>
+          </div>
+        </SidebarProvider>
       </div>
     </div>
   );

@@ -1,4 +1,7 @@
-export default async function Problem({ params }: any) {
-  const { category } = await params;
-  return <h1>{category}</h1>;
+import { getProblem } from "@/app/leetcode/lib";
+import ProblemPage from "@/components/leetcode/markdown";
+
+export default async function Category() {
+  const problemData = await getProblem("home");
+  return <ProblemPage markdown={problemData} problemId={"home"} />;
 }

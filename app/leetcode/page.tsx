@@ -1,28 +1,38 @@
 import Link from "next/link";
-import data from "./data.json";
-import { getCountForPattern, GroupedProblems, getTotalQuestions } from "./lib";
+import Image from "next/image";
+import { getCountForPattern, getLeetCodeData, getTotalQuestions } from "./lib";
 import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid";
 import { ArrowLeft } from "lucide-react";
-// import { QueryClient, QueryClientProvider } from "react-query";
-
-async function getLeetCodeData(): Promise<GroupedProblems> {
-  const TOKEN_ENDPOINT =
-    "https://iucujk439g.execute-api.us-east-1.amazonaws.com/default/readTable?TableName=Leetcode";
-  const options = {
-    method: "GET",
-    headers: {
-      "X-Api-Key": process.env.NEXT_PUBLIC_AWS_API_KEY,
-    },
-  };
-
-  const res = await fetch(TOKEN_ENDPOINT, options);
-  const data = await res.json();
-
-  return data;
-}
+import arraysHashing from "@/public/images/arrays-&-hashing.svg";
+import backtracking from "@/public/images/backtracking.svg";
+import binarySearch from "@/public/images/binary-search.svg";
+import dynamicProgramming from "@/public/images/dynamic-programming.svg";
+import graphs from "@/public/images/graphs.svg";
+import heaps from "@/public/images/heaps.svg";
+import interval from "@/public/images/interval.svg";
+import linkedList from "@/public/images/linked-list.svg";
+import slidingWindow from "@/public/images/sliding-window.svg";
+import stacks from "@/public/images/stacks.svg";
+import tree from "@/public/images/tree.svg";
+import twoPointer from "@/public/images/two-pointer.svg";
 
 export default async function LeetCode() {
-  // const data = await getLeetCodeData();
+  const data = await getLeetCodeData();
+
+  const patternToImage = {
+    "array-&-hashing": arraysHashing,
+    backtracking: backtracking,
+    "binary-search": binarySearch,
+    "dynamic-programming": dynamicProgramming,
+    graphs: graphs,
+    heaps: heaps,
+    intervals: interval,
+    "linked-list": linkedList,
+    "sliding-window": slidingWindow,
+    stacks: stacks,
+    trees: tree,
+    "two-pointer": twoPointer,
+  };
 
   const items = Object.entries(data)
     .map(([pattern, problems]) => {
@@ -32,7 +42,17 @@ export default async function LeetCode() {
       return {
         title: formattedPattern,
         description: "",
-        header: <Skeleton />,
+        header: (
+          <Image
+            src={
+              patternToImage[
+                pattern.toLowerCase() as keyof typeof patternToImage
+              ] || ""
+            }
+            alt={`${formattedPattern} Illustration`}
+            className="w-full h-full rounded-xl"
+          />
+        ),
         icon: `${totalProblems} Problems Completed`,
         url: `/${pattern.toLowerCase()}`,
         problemCount: totalProblems,
@@ -40,7 +60,8 @@ export default async function LeetCode() {
     })
     .sort((a, b) => b.problemCount - a.problemCount);
 
-  const totalQuestions = getTotalQuestions();
+  const totalQuestions = await getTotalQuestions(data);
+
   return (
     <div className="min-h-screen p-6 my-15">
       <div className="max-w-4xl mx-auto">
@@ -75,7 +96,3 @@ export default async function LeetCode() {
     </div>
   );
 }
-
-const Skeleton = () => (
-  <div className="flex flex-1 w-full h-full min-h-[6rem] rounded-xl bg-gradient-to-br from-neutral-200 dark:from-neutral-900 dark:to-neutral-800 to-neutral-100"></div>
-);

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { ThemeProvider } from "@/theme/theme-provider";
 import { Inter } from "next/font/google";
+import { Toaster } from "@/components/ui/sonner";
+
 import "./globals.css";
 
 const inter = Inter({
@@ -22,9 +23,8 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className={inter.className}>
-        {/* <ThemeProvider attribute="class" defaultTheme="dark" enableSystem> */}
         {children}
-        {/* </ThemeProvider> */}
+        <Toaster />
       </body>
     </html>
   );
