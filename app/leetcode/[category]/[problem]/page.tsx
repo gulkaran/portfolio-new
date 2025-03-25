@@ -4,7 +4,7 @@ import ProblemPage from "@/components/leetcode/markdown";
 export default async function Problem({
   params,
 }: {
-  params: { problem: string };
+  params: Promise<{ problem: string }>;
 }) {
   const { problem } = await params;
   const problemData = await getProblem(problem);

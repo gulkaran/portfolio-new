@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import PlayingAnimation from "@/components/spotify/playing-animation";
 
 async function fetchSpotifySong() {
@@ -38,29 +39,29 @@ async function fetchSpotifySong() {
 
     return {
       album: song.item.album.images[2].url,
-      artist: song.item.artists.map((_artist: any) => _artist.name).join(", "),
+      artist: song.item.artists
+        .map((_artist: { name: string }) => _artist.name)
+        .join(", "),
       title: song.item.name,
       songURL: song.item.external_urls.spotify,
-      isPlaying: song.is_playing,
     };
-  } catch (e) {
+  } catch {
     // Return a default song in case of error
     return {
       album: "https://i.scdn.co/image/ab67616d00004851c6e0948bbb0681ff29cdbae8",
       artist: "J. Cole",
       title: "January 28th",
       songURL: "https://open.spotify.com/album/0UMMIkurRUmkruZ3KGBLtG",
-      isPlaying: false,
     };
   }
 }
 
 export default async function SpotifyCurrentSong() {
-  const { album, artist, title, songURL, isPlaying } = await fetchSpotifySong();
+  const { album, artist, title, songURL } = await fetchSpotifySong();
 
   return (
     <div className="flex items-center gap-4 text-white rounded-md max-w-md">
-      <img
+      <Image
         src={album}
         width={48}
         height={48}

@@ -35,7 +35,7 @@ interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
   data: CategoryData;
   category: string;
 }
-export function AppSidebar({ data, category, ...props }: AppSidebarProps) {
+export function AppSidebar({ data, category }: AppSidebarProps) {
   const pathname = usePathname();
   if (!data) return null;
 
@@ -55,7 +55,7 @@ export function AppSidebar({ data, category, ...props }: AppSidebarProps) {
               <h2 className="font-medium text-lg mb-2">{difficulty}</h2>
               {problems?.length ? (
                 <SidebarMenuSub>
-                  {problems.map((problem) => {
+                  {problems.map((problem: ProblemData) => {
                     const itemPath = `/leetcode/${category}/${problem.id.S}`;
                     const isActive = pathname === itemPath;
 

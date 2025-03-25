@@ -32,11 +32,13 @@ export async function getLeetCodeData(): Promise<GroupedProblems> {
     headers: {
       "X-Api-Key": process.env.NEXT_PUBLIC_AWS_API_KEY,
     } as const,
-    cache: "force-cache",
   };
-
   try {
-    const res = await fetch(TOKEN_ENDPOINT, options);
+    const res = await fetch(TOKEN_ENDPOINT, {
+      method: options.method,
+      headers: options.headers,
+      cache: "force-cache" as RequestCache,
+    });
     if (!res.ok) {
       throw new Error(`API request failed with status ${res.status}`);
     }
@@ -50,12 +52,11 @@ export async function getLeetCodeData(): Promise<GroupedProblems> {
 
 export async function getProblem(id: string): Promise<string> {
   const TOKEN_ENDPOINT = `https://gulkaran-portfolio.s3.amazonaws.com/leetcode/${id}.md`;
-  const options = {
-    method: "GET",
-    cache: "force-cache",
-  };
 
-  const res = await fetch(TOKEN_ENDPOINT, options);
+  const res = await fetch(TOKEN_ENDPOINT, {
+    method: "GET",
+    cache: "force-cache" as RequestCache,
+  });
   if (!res.ok) {
     throw new Error(`API request failed with status ${res.status}`);
   }

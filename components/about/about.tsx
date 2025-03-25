@@ -21,7 +21,7 @@ export default function About() {
           alt="me"
           width={375}
           height={600}
-          className="rounded-xl"
+          className="rounded-xl h-auto"
           priority
         />
       </div>
