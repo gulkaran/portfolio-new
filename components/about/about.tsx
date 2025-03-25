@@ -5,7 +5,7 @@ import Experience from "@/components/about/experience";
 import { Separator } from "@/components/ui/separator";
 import ShopifyLogo from "@/public/images/about/shopify.png";
 import ScotiabankLogo from "@/public/images/about/scotiabank.png";
-import McMasterLogo from "@/public/images/about/mcmaster.png";
+// import McMasterLogo from "@/public/images/about/mcmaster.png";
 import WonderlandLogo from "@/public/images/about/canadas-wonderland.png";
 import { ExternalLink } from "lucide-react";
 

@@ -27,7 +27,16 @@ export default function ProblemPage({
           rehypePlugins={[rehypeKatex]}
           components={{
             // Custom code block rendering
-            code({ node, inline, className, children, ...props }) {
+            code({
+              inline,
+              className,
+              children,
+              ...props
+            }: {
+              inline?: boolean;
+              className?: string;
+              children?: React.ReactNode;
+            }) {
               const match = /language-(\w+)/.exec(className || "");
 
               const handleCopy = async () => {
@@ -51,7 +60,7 @@ export default function ProblemPage({
                     <Copy className="h-4 w-4 text-muted-foreground hover:text-white transition-colors" />
                   </Button>
                   <SyntaxHighlighter
-                    style={githubTheme}
+                    style={githubTheme as never}
                     language={match[1]}
                     PreTag="div"
                     className="rounded-4xl border [scrollbar-color:#ffffff1a_#191919]"
