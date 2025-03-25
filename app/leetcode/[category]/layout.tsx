@@ -5,6 +5,13 @@ import { AppSidebar } from "@/components/leetcode/sidebar";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
 
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Gulkaran Singh | LeetCode",
+  description: "LeetCode Questions I've completed.",
+};
+
 export default async function CategoryLayout({
   children,
   params,

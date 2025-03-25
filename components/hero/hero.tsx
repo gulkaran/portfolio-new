@@ -9,7 +9,7 @@ import { LegoScene } from "./lego-model";
 
 export default function Hero() {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen cursor-default">
       <header className="pt-6 px-6 md:px-12">
         <nav className="flex justify-center space-x-8 relative z-10 mt-1 font-light">
           <Link
@@ -31,8 +31,10 @@ export default function Hero() {
             projects
           </Link>
           <Link
-            href="/resume"
+            href="../resume/Gulkaran_Singh_Resume.pdf"
             className="text-muted-foreground hover:text-primary transition-colors"
+            target="_blank"
+            rel="noopener noreferrer"
           >
             resume
           </Link>

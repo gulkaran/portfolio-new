@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import type { Metadata } from "next";
 import { getCountForPattern, getLeetCodeData, getTotalQuestions } from "./lib";
 import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid";
 import { ArrowLeft } from "lucide-react";
@@ -15,6 +16,11 @@ import slidingWindow from "@/public/images/leetcode/sliding-window.svg";
 import stacks from "@/public/images/leetcode/stacks.svg";
 import tree from "@/public/images/leetcode/tree.svg";
 import twoPointer from "@/public/images/leetcode/two-pointer.svg";
+
+export const metadata: Metadata = {
+  title: "Gulkaran Singh | LeetCode",
+  description: "LeetCode Questions I've completed.",
+};
 
 export default async function LeetCode() {
   const data = await getLeetCodeData();

@@ -46,7 +46,7 @@ export default function ProblemPage({
                     onClick={handleCopy}
                     variant="ghost"
                     size="icon"
-                    className="absolute top-2 right-2 h-8 w-8 active:scale-90 transition-transform"
+                    className="absolute top-2 right-2 h-8 w-8 active:scale-90 transition-transform cursor-pointer"
                   >
                     <Copy className="h-4 w-4 text-muted-foreground hover:text-white transition-colors" />
                   </Button>

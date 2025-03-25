@@ -1,51 +1,32 @@
 [
   {
-    "title": "Fluid Simulation",
-    "description": "a particle-based fluid simulation with density estimation, pressure forces, spatial grid optimizations and elastic collisions.",
-    "header": "fluidsim",
-    "icon": "Rust, Bevy",
-    "url": "https://github.com/gulkaran/fluid-simulation"
+    "title": "Calculus 2",
+    "header": "calc2",
+    "icon": "36 Pages",
+    "url": "../notes/calculus_notes.pdf"
   },
   {
-    "title": "HandTex (AI Math Symbol Recognition)",
-    "description": "a convolutional neural network to convert handwritten mathematical expressions to LaTeX using AI image detection.",
-    "header": "handtex",
-    "icon": "Python, TensorFlow, OpenCV, React, Typescript",
-    "url": "https://github.com/gulkaran/Handwritten-Math-To-Latex"
+    "title": "Data Structures and Algorithms",
+    "header": "dsa",
+    "icon": "73 Pages",
+    "url": "../notes/dsa_notes.pdf"
   },
   {
-    "title": "Markdown Documentation",
-    "description": "a markdown powered documentation style website to showcase completed LeetCode problems.",
-    "header": "markdown",
-    "icon": "AWS S3, Lambda, API Gateway, DynamoDB, GitHub Actions",
-    "url": "https://github.com/gulkaran/leetcode"
+    "title": "Engineering Statistics",
+    "header": "stats",
+    "icon": "27 Pages",
+    "url": "../notes/stats_notes.pdf"
   },
   {
-    "title": "byteKode Hackathon",
-    "description": "a non-profit organization which hosted two hackathon events with 200+ beginner programmers attendees.",
-    "header": "bytekode",
-    "icon": "devpost, javascript, html5, css3",
-    "url": "https://bytekodehackathon.devpost.com/"
+    "title": "Discrete Mathematics",
+    "header": "discrete",
+    "icon": "54 Pages",
+    "url": "../notes/discrete_notes.pdf"
   },
   {
-    "title": "YRCodes",
-    "description": "launched an educational computer science learning platform for York Region (YRDSB) students; endorsed by the YRDSB superintendent.",
-    "header": "yrcodes",
-    "icon": "javascript, html5, css3, google prettify",
-    "url": "https://github.com/gulkaran/harishuthayakumargithub.github.io"
-  },
-  {
-    "title": "MemoryBox",
-    "description": "a 3d-modeled memory box to hold up to 8 prerecorded messages for one's birthday or anniversary!",
-    "header": "memorybox",
-    "icon": "Arduino, AutoCAD, Fusion360",
-    "url": "https://github.com/gulkaran/MemoryBox"
-  },
-  {
-    "title": "Spiderman Minecraft Mod",
-    "description": "a custom Minecraft mod that implements new loot tables, spiderman armour, new blocks, and more!",
-    "header": "spiderman",
-    "icon": "Java, Fabric, Gradle",
-    "url": "https://github.com/gulkaran/Spiderman-Minecraft-Mod"
+    "title": "Linear Algebra",
+    "header": "linalg",
+    "icon": "16 Pages",
+    "url": "../notes/linearalgebra_notes.pdf"
   }
 ]

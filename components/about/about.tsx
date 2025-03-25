@@ -7,6 +7,7 @@ import ShopifyLogo from "@/public/images/about/shopify.png";
 import ScotiabankLogo from "@/public/images/about/scotiabank.png";
 import McMasterLogo from "@/public/images/about/mcmaster.png";
 import WonderlandLogo from "@/public/images/about/canadas-wonderland.png";
+import { ExternalLink } from "lucide-react";
 
 export default function About() {
   return (
@@ -32,8 +33,9 @@ export default function About() {
               About Me
             </h2>
             <p className="text-lg mb-6">
-              Software engineer, designer, and studying Computer Science at{" "}
-              <span className="items-center">
+              Software engineer, designer, and studying Computer Science at
+              McMaster University
+              {/* <span className="items-center">
                 <Image
                   src={McMasterLogo}
                   alt="McMaster University"
@@ -49,10 +51,29 @@ export default function About() {
                 className="underline underline-offset-5 decoration-primary/50 hover:decoration-primary transition duration-300 ease-in-out"
               >
                 McMaster University
-              </Link>
+              </Link> */}
               . Currently at Shopify.
             </p>
-            <p className="text-lg mb-6">Designing products for the future.</p>
+
+            <div className="flex items-center">
+              <p className="text-lg mb-6">
+                Engineering the future.{" "}
+                <span className="group inline-flex items-center gap-1">
+                  <Link
+                    href="../resume/Gulkaran_Singh_Resume.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-muted-foreground group-hover:text-primary underline underline-offset-5 decoration-primary/50 group-hover:decoration-primary transition duration-300 ease-in-out"
+                  >
+                    Resume
+                  </Link>
+                  <ExternalLink
+                    strokeWidth={1.5}
+                    className="text-muted-foreground group-hover:text-primary transition duration-300 ease-in-out transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                  />
+                </span>
+              </p>
+            </div>
 
             <div className="relative">
               <Experience
