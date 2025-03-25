@@ -15,7 +15,7 @@ const githubTheme = {
     MozHyphens: "none",
     msHyphens: "none",
     hyphens: "none",
-    background: "#191919",
+    background: "var(--background)",
   },
   'pre[class*="language-"]': {
     color: "#e6edf3",
@@ -37,10 +37,10 @@ const githubTheme = {
     margin: ".5em 0",
     overflow: "auto",
     borderRadius: "0.3em",
-    background: "#191919",
+    background: "var(--background)",
   },
   ':not(pre) > code[class*="language-"]': {
-    background: "#191919",
+    background: "var(--background)",
     padding: ".1em",
     borderRadius: ".3em",
   },

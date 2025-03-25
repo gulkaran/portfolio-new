@@ -53,7 +53,10 @@ export default async function CategoryLayout({
             <div className="w-full lg:w-80 lg:flex-shrink-0">
               <AppSidebar data={categoryData} category={category} />
             </div>
-            <Separator orientation="vertical" className="h-full" />
+            <Separator
+              orientation="vertical"
+              className="h-full hidden lg:block"
+            />
             <div className="flex-1 min-w-0 ml-8">
               <SidebarInset>{children}</SidebarInset>
             </div>

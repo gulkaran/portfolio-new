@@ -1,4 +1,4 @@
-import { getProblem, getLeetCodeData } from "@/app/leetcode/lib";
+import { getProblem } from "@/app/leetcode/lib";
 import ProblemPage from "@/components/leetcode/markdown";
 
 export default async function Problem({

@@ -46,9 +46,9 @@ export default function ProblemPage({
                     onClick={handleCopy}
                     variant="ghost"
                     size="icon"
-                    className="absolute top-2 right-2 h-8 w-8 hover:text-white transition-colors"
+                    className="absolute top-2 right-2 h-8 w-8 active:scale-90 transition-transform"
                   >
-                    <Copy className="h-4 w-4 text-muted-foreground" />
+                    <Copy className="h-4 w-4 text-muted-foreground hover:text-white transition-colors" />
                   </Button>
                   <SyntaxHighlighter
                     style={githubTheme}
@@ -67,29 +67,32 @@ export default function ProblemPage({
               );
             },
             ul({ children }) {
-              return <ul className="list-disc list-inside">{children}</ul>;
+              return <ul className="list-disc my-2">{children}</ul>;
             },
             li({ children }) {
-              return <li className="ml-4">{children}</li>;
+              return <li className="ml-4 my-2">{children}</li>;
             },
           }}
         >
           {markdown}
         </ReactMarkdown>
       </div>
-      <Separator orientation="horizontal" className="h-4" />
-
-      <div className="text-sm text-muted-foreground mt-4">
-        <Link
-          href={`https://leetcode.com/problems/${problemId}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center gap-1 hover:text-foreground transition-colors"
-        >
-          LeetCode Link
-          <ExternalLink className="h-3 w-3" />
-        </Link>
-      </div>
+      {problemId !== "home" && (
+        <>
+          <Separator orientation="horizontal" className="h-4 mt-5" />
+          <div className="text-sm text-muted-foreground mt-4">
+            <Link
+              href={`https://leetcode.com/problems/${problemId}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1 hover:text-foreground transition-colors"
+            >
+              LeetCode Link
+              <ExternalLink className="h-3 w-3" />
+            </Link>
+          </div>
+        </>
+      )}
     </section>
   );
 }

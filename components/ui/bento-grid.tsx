@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 
 export const BentoGrid = ({
@@ -11,7 +12,7 @@ export const BentoGrid = ({
   return (
     <div
       className={cn(
-        "grid md:auto-rows-[18rem] grid-cols-1 md:grid-cols-3 gap-4 max-w-7xl mx-auto ",
+        "grid grid-cols-1 md:grid-cols-3 gap-4 max-w-7xl mx-auto",
         className
       )}
     >
@@ -46,10 +47,13 @@ export const BentoGridItem = ({
       )}
     >
       {header}
-      <div className="group-hover/bento:translate-x-2 transition duration-200 text-xs text-muted-foreground">
+      <Separator orientation="horizontal" className="bg-primary/30" />
+      <div className="group-hover/bento:translate-x-2 transition duration-200 text-xs text-muted-foreground font-light">
         {icon}
-        <div className="font-bold text-white text-lg mb-2 mt-2">{title}</div>
-        <div className="font-normal text-xs text-white">{description}</div>
+        <div className="font-semibold text-primary text-lg mb-2 mt-2">
+          {title}
+        </div>
+        <p className="text-xs text-primary">{description}</p>
       </div>
     </Wrapper>
   );

@@ -60,18 +60,26 @@ export default async function SpotifyCurrentSong() {
 
   return (
     <div className="flex items-center gap-4 text-white rounded-md max-w-md">
-      <img src={album} width={48} height={48} alt="Album cover" />
+      <img
+        src={album}
+        width={48}
+        height={48}
+        alt="Album cover"
+        className="rounded-md"
+      />
 
       <div className="flex flex-col min-w-0">
         <Link
           href={songURL}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-white hover:underline font-light truncate"
+          className="text-primary hover:text-white transition-colors font-light"
         >
           {title}
         </Link>
-        <span className="text-muted-foreground text-sm truncate">{artist}</span>
+        <span className="text-muted-foreground font-light text-sm truncate">
+          {artist}
+        </span>
       </div>
 
       <div className="ml-2 pb-5">

@@ -1,101 +1,114 @@
 import Link from "next/link";
 import Image from "next/image";
 import SpotifyCurrentSong from "@/components/spotify/spotify";
+import Experience from "@/components/about/experience";
 import { Separator } from "@/components/ui/separator";
+import ShopifyLogo from "@/public/images/about/shopify.png";
+import ScotiabankLogo from "@/public/images/about/scotiabank.png";
+import McMasterLogo from "@/public/images/about/mcmaster.png";
+import WonderlandLogo from "@/public/images/about/canadas-wonderland.png";
 
 export default function About() {
   return (
     <main
-      className="min-h-screen flex flex-col md:flex-row items-center justify-center p-4 md:p-8 md:gap-30 gap-12"
+      className="min-h-screen flex flex-col md:flex-row items-center justify-center p-4 md:p-8 md:gap-15 gap-8 cursor-default"
       id="about"
     >
-      <div className="w-full md:w-fit flex justify-center">
+      <div className="w-full lg:w-1/2 flex justify-center lg:justify-end mb-10 order-2 md:order-1">
         <Image
           src="/images/me.png"
           alt="me"
-          width={350}
+          width={375}
           height={600}
           className="rounded-xl"
           priority
         />
       </div>
 
-      <div className="flex justify-center">
-        <div className="w-full md:w-fit space-y-12">
-          <section className="mb-10">
-            <h2 className="text-2xl font-semibold mb-1">education</h2>
-            <p className="text-lg mb-1">
-              <span className="font-bold">cs</span> @ mcmaster university (3.95
-              gpa)
+      <div className="flex text-primary order-1 md:order-2">
+        <div className="w-full lg:w-2/3 space-y-12 justify-start">
+          <section className="mb-6">
+            <h2 className="text-4xl font-semibold mb-3 text-primary">
+              About Me
+            </h2>
+            <p className="text-lg mb-6">
+              Software engineer, designer, and studying Computer Science at{" "}
+              <span className="items-center">
+                <Image
+                  src={McMasterLogo}
+                  alt="McMaster University"
+                  width={20}
+                  height={20}
+                  className="inline-block items-baseline mr-1"
+                />
+              </span>
+              <Link
+                href="https://mcmaster.ca"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline underline-offset-5 decoration-primary/50 hover:decoration-primary transition duration-300 ease-in-out"
+              >
+                McMaster University
+              </Link>
+              . Currently at Shopify.
             </p>
-            <p className="text-sm text-muted-foreground">2022 - 2026</p>
-          </section>
+            <p className="text-lg mb-6">Designing products for the future.</p>
 
-          <section className="mb-10">
-            <h2 className="text-2xl font-semibold mb-2">experience</h2>
             <div className="relative">
-              <div className="absolute left-3 top-0 bottom-0 w-0.5 bg-white/35"></div>
+              <Experience
+                company="Shopify"
+                jobTitle="Software Engineering Intern"
+                date="Summer 2025"
+                img={ShopifyLogo}
+                color="bg-emerald-300"
+                url="https://www.shopify.com"
+              />
 
-              <div className="relative pl-10 pb-8">
-                <div className="absolute left-2 top-2.5 w-2.5 h-2.5 rounded-full bg-white border-2"></div>
-                <p className="text-lg mb-0.5">
-                  software engineering intern @{" "}
-                  <span className="font-semibold">shopify</span>
-                </p>
-                <p className="text-sm text-muted-foreground">
-                  summer 2025 (present)
-                </p>
-              </div>
+              <Experience
+                company="Scotiabank"
+                jobTitle="Trades Floor Fullstack Developer"
+                date="Winter 2024"
+                img={ScotiabankLogo}
+                color="bg-red-400"
+                url="https://www.scotiabank.com"
+              />
 
-              <div className="relative pl-10 pb-8">
-                <div className="absolute left-2 top-2.5 w-2.5 h-2.5 rounded-full bg-white border-2"></div>
-                <p className="text-lg mb-0.5">
-                  trades floor fullstack developer @{" "}
-                  <span className="font-semibold">scotiabank</span>
-                </p>
-                <p className="text-sm text-muted-foreground">
-                  winter 2024 (4 months)
-                </p>
-              </div>
-
-              <div className="relative pl-10">
-                <div className="absolute left-2 top-2.5 w-2.5 h-2.5 rounded-full bg-white border-2"></div>
-                <p className="text-lg mb-0.5">
-                  software engineer @{" "}
-                  <span className="font-semibold">
-                    canada&apos;s wonderland
-                  </span>
-                </p>
-                <p className="text-sm text-muted-foreground">
-                  summer 2023 (4 months)
-                </p>
-              </div>
+              <Experience
+                company="Canada's Wonderland"
+                jobTitle="Software Engineering Intern"
+                date="Summer 2023"
+                img={WonderlandLogo}
+                color="bg-blue-400"
+                url="https://www.canadaswonderland.com"
+              />
             </div>
           </section>
 
-          <section className="mb-10">
-            <h2 className="text-2xl font-semibold mb-1">listening to</h2>
-            <SpotifyCurrentSong />
+          <section className="mb-6 sm:mb-8">
+            <p className="text-lg mb-3">I&apos;m currently listening to</p>
+            <div className="flex justify-center lg:justify-start">
+              <SpotifyCurrentSong />
+            </div>
           </section>
 
-          <div className="flex h-5 items-center space-x-4">
+          <div className="flex h-5 items-center space-x-4 mb-3 justify-center lg:justify-start font-light">
             <Link
               href="/projects"
-              className="text-white/80 hover:text-white transition-colors"
+              className="text-muted-foreground hover:text-primary transition-colors"
             >
               projects
             </Link>
             <Separator orientation="vertical" />
             <Link
               href="/leetcode"
-              className="text-white/80 hover:text-white transition-colors"
+              className="text-muted-foreground hover:text-primary transition-colors"
             >
               leetcode
             </Link>
             <Separator orientation="vertical" />
             <Link
               href="/notes"
-              className="text-white/80 hover:text-white transition-colors"
+              className="text-muted-foreground hover:text-primary transition-colors"
             >
               notes
             </Link>
@@ -105,7 +118,7 @@ export default function About() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="GitHub"
-              className="text-white/80 hover:text-white transition-colors"
+              className="text-muted-foreground hover:text-primary transition-colors"
             >
               github
             </Link>
@@ -115,7 +128,7 @@ export default function About() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="LinkedIn"
-              className="text-white/80 hover:text-white transition-colors"
+              className="text-muted-foreground hover:text-primary transition-colors"
             >
               linkedin
             </Link>
