@@ -1,3 +1,5 @@
+"use client";
+
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid";
@@ -8,13 +10,6 @@ import dsa from "@/public/images/notes/dsa.svg";
 import stats from "@/public/images/notes/stats.svg";
 import discrete from "@/public/images/notes/discrete.svg";
 import linalg from "@/public/images/notes/linalg.svg";
-
-import type { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "Gulkaran Singh | Notes",
-  description: "Notes I've written in LaTeX.",
-};
 
 export default function Projects() {
   const mapping = {
@@ -53,7 +48,11 @@ export default function Projects() {
                 <Image
                   src={mapping[item.header as keyof typeof mapping] || ""}
                   alt={item.title}
-                  className="w-full h-auto max-h-[200px] object-contain"
+                  className="w-full h-auto object-contain data-[loaded=false]:animate-pulse data-[loaded=false]:bg-gray-600/10"
+                  data-loaded="false"
+                  onLoad={(event) => {
+                    event.currentTarget.setAttribute("data-loaded", "true");
+                  }}
                 />
               }
               icon={item.icon}
