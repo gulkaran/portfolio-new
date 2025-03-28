@@ -45,8 +45,8 @@ async function fetchSpotifySong() {
       title: song.item.name,
       songURL: song.item.external_urls.spotify,
     };
-  } catch {
-    // Return a default song in case of error
+  } catch (e) {
+    console.error(e);
     return {
       album: "https://i.scdn.co/image/ab67616d00004851c6e0948bbb0681ff29cdbae8",
       artist: "J. Cole",

@@ -58,7 +58,7 @@ export default function About() {
             <div className="flex items-center">
               <p className="text-lg mb-6">
                 Engineering the future.{" "}
-                <span className="group inline-flex items-center gap-1">
+                <span className="group inline-flex items-center gap-1 cursor-pointer">
                   <Link
                     href="../resume/Gulkaran_Singh_Resume.pdf"
                     target="_blank"
