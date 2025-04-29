@@ -5,7 +5,6 @@ import Experience from "@/components/about/experience";
 import { Separator } from "@/components/ui/separator";
 import ShopifyLogo from "@/public/images/about/shopify.png";
 import ScotiabankLogo from "@/public/images/about/scotiabank.png";
-// import McMasterLogo from "@/public/images/about/mcmaster.png";
 import WonderlandLogo from "@/public/images/about/canadas-wonderland.png";
 import { ExternalLink } from "lucide-react";
 
@@ -15,7 +14,7 @@ export default function About() {
       className="min-h-screen flex flex-col md:flex-row items-center justify-center p-4 md:p-8 md:gap-15 gap-8 cursor-default"
       id="about"
     >
-      <div className="w-full lg:w-1/2 flex justify-center lg:justify-end mb-10 order-2 md:order-1">
+      <div className="flex justify-center items-center mb-10 order-2 md:order-1">
         <Image
           src="/images/me.png"
           alt="me"
@@ -27,32 +26,14 @@ export default function About() {
       </div>
 
       <div className="flex text-primary order-1 md:order-2">
-        <div className="w-full lg:w-2/3 space-y-12 justify-start">
+        <div className="space-y-12 flex flex-col items-center md:items-start max-w-md">
           <section className="mb-6">
             <h2 className="text-4xl font-semibold mb-3 text-primary">
               About Me
             </h2>
             <p className="text-lg mb-6">
               Software engineer, designer, and studying Computer Science at
-              McMaster University
-              {/* <span className="items-center">
-                <Image
-                  src={McMasterLogo}
-                  alt="McMaster University"
-                  width={20}
-                  height={20}
-                  className="inline-block items-baseline mr-1"
-                />
-              </span>
-              <Link
-                href="https://mcmaster.ca"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline underline-offset-5 decoration-primary/50 hover:decoration-primary transition duration-300 ease-in-out"
-              >
-                McMaster University
-              </Link> */}
-              . Currently at Shopify.
+              McMaster University. Currently at Shopify.
             </p>
 
             <div className="flex items-center">

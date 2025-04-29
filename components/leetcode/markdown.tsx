@@ -6,11 +6,12 @@ import rehypeKatex from "rehype-katex";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import "katex/dist/katex.min.css";
 import githubTheme from "@/components/leetcode/github-theme";
-import { Copy, ClipboardCheck, ExternalLink } from "lucide-react";
+import { Copy, ClipboardCheck, ExternalLink, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
+import { useState } from "react";
 
 export default function ProblemPage({
   markdown,
@@ -19,6 +20,8 @@ export default function ProblemPage({
   markdown: string;
   problemId: string;
 }) {
+  const [copied, setCopied] = useState(false);
+
   return (
     <section>
       <div className="markdown">
@@ -41,12 +44,14 @@ export default function ProblemPage({
 
               const handleCopy = async () => {
                 await navigator.clipboard.writeText(String(children));
+                setCopied(true);
                 toast("Code copied to clipboard.", {
                   icon: (
                     <ClipboardCheck className="text-muted-foreground h-4 w-4" />
                   ),
                   duration: 1500,
                 });
+                setTimeout(() => setCopied(false), 2000);
               };
 
               return !inline && match ? (
@@ -57,7 +62,11 @@ export default function ProblemPage({
                     size="icon"
                     className="absolute top-2 right-2 h-8 w-8 active:scale-90 transition-transform cursor-pointer"
                   >
-                    <Copy className="h-4 w-4 text-muted-foreground hover:text-white transition-colors" />
+                    {copied ? (
+                      <Check className="h-4 w-4 text-green-600" />
+                    ) : (
+                      <Copy className="h-4 w-4 text-muted-foreground hover:text-white transition-colors" />
+                    )}
                   </Button>
                   <SyntaxHighlighter
                     style={githubTheme as never}
