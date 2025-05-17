@@ -67,7 +67,7 @@ export default function Hero() {
             </p>
             <Separator orientation="vertical" />
             <p className="text-md md:text-xl text-muted-foreground">
-              software engineer and cs student
+              build the missing, reimagine the existing
             </p>
           </div>
 

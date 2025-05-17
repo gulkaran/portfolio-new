@@ -51,7 +51,7 @@ export default function ProblemPage({
                   ),
                   duration: 1500,
                 });
-                setTimeout(() => setCopied(false), 2000);
+                setTimeout(() => setCopied(false), 1500);
               };
 
               return !inline && match ? (
