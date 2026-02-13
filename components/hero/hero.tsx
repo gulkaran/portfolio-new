@@ -10,8 +10,12 @@ import { LegoScene } from "./lego-model";
 export default function Hero() {
   return (
     <div className="flex flex-col min-h-screen cursor-default">
-      <header className="pt-6 px-6 md:px-12">
-        <nav className="flex justify-center space-x-8 relative z-10 mt-1 font-light">
+      {/* 1. Add pointer-events-none to header so clicks pass through empty header space
+       */}
+      <header className="pt-6 px-6 md:px-12 pointer-events-none">
+        {/* 2. Add pointer-events-auto so links are still clickable
+         */}
+        <nav className="flex justify-center space-x-8 relative z-10 mt-1 font-light pointer-events-auto">
           <Link
             href=""
             onClick={(e) => {
@@ -42,14 +46,19 @@ export default function Hero() {
       </header>
 
       <div className="absolute inset-0 z-1">
+        <div className="absolute inset-0 pointer-events-none">
+          <ShootingStars />
+          <StarsBackground />
+        </div>
+
         <LegoScene />
-        <ShootingStars />
-        <StarsBackground />
       </div>
 
-      <main className="flex-1 flex flex-col justify-center items-center px-6 relative z-10">
+      <main className="flex-1 flex flex-col justify-center items-center px-6 relative z-10 pointer-events-none">
         <div className="max-w-6xl w-full">
-          <h1 className="text-4xl md:text-7xl font-bold mb-5 text-white/85 group w-fit">
+          {/* 4. Add pointer-events-auto to the Text so you can still select it
+           */}
+          <h1 className="text-4xl md:text-7xl font-bold mb-5 text-white/85 group w-fit pointer-events-auto">
             <span className="text-violet-500 group-hover:text-purple-500 transition-colors">
               [gulkaran
             </span>
@@ -61,7 +70,9 @@ export default function Hero() {
             <span className="group-hover:text-white transition-colors"> $</span>
           </h1>
 
-          <div className="flex h-5 items-center space-x-3">
+          {/* 5. Add pointer-events-auto to the description
+           */}
+          <div className="flex h-5 items-center space-x-3 pointer-events-auto">
             <p className="text-md md:text-xl text-muted-foreground">
               <span className="italic">/ gul-car-n /</span>
             </p>
@@ -71,7 +82,9 @@ export default function Hero() {
             </p>
           </div>
 
-          <div className="mt-8 flex space-x-6 inset-0 z-1">
+          {/* 6. Add pointer-events-auto to the buttons container so they are clickable
+           */}
+          <div className="mt-8 flex space-x-6 inset-0 z-1 pointer-events-auto">
             <Link
               href="https://github.com/gulkaran"
               target="_blank"

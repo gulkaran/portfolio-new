@@ -3,117 +3,118 @@
 import React, { useRef, useEffect } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
-import { GLTF, GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
-// import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader.js';
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 
 export const LegoScene: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const isMounted = useRef(false);
-
   useEffect(() => {
-    if (isMounted.current) return;
-    isMounted.current = true;
+    if (typeof window === "undefined" || !containerRef.current) return;
 
-    if (typeof window !== "undefined") {
-      const scene = new THREE.Scene();
-      // scene.add(new THREE.AxesHelper(5))
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(
+      90,
+      window.innerWidth / window.innerHeight,
+      0.1,
+      1000
+    );
 
-      const camera = new THREE.PerspectiveCamera(
-        90,
-        window.innerWidth / window.innerHeight,
-        0.1,
-        1000
-      );
-      const renderer = new THREE.WebGLRenderer({
-        alpha: true,
-        antialias: true,
-      });
+    const renderer = new THREE.WebGLRenderer({
+      alpha: true,
+      antialias: true,
+    });
 
-      // Set the canvas to be transparent
-      renderer.setSize(window.innerWidth, window.innerHeight);
-      renderer.domElement.style.pointerEvents = "auto"; // Enable interaction with Three.js model
-      containerRef.current?.appendChild(renderer.domElement);
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
 
-      camera.position.set(100, 50, 200);
+    renderer.domElement.style.pointerEvents = "auto";
 
-      const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-      scene.add(ambientLight);
+    const currentContainer = containerRef.current;
+    currentContainer.appendChild(renderer.domElement);
 
-      const directionalLight = new THREE.DirectionalLight(0xffffff, 2);
-      directionalLight.position.set(100, 50, 200);
-      scene.add(directionalLight);
+    camera.position.set(100, 50, 200);
 
-      const controls = new OrbitControls(camera, renderer.domElement);
-      controls.enableDamping = true;
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+    scene.add(ambientLight);
 
-      let rotationSpeed = -2;
-      controls.target.set(0, 0, 0);
-      controls.enableZoom = false;
-      controls.autoRotate = true;
-      controls.autoRotateSpeed = rotationSpeed;
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 2);
+    directionalLight.position.set(100, 50, 200);
+    scene.add(directionalLight);
 
-      let loadedModel: GLTF;
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.enableZoom = false;
+    controls.autoRotate = true;
 
-      const gltfLoader = new GLTFLoader();
-      gltfLoader.load("/models/lego_space_dart/scene.gltf", (gltf) => {
-        scene.add(gltf.scene);
+    let rotationSpeed = -2;
+    controls.autoRotateSpeed = rotationSpeed;
 
-        loadedModel = gltf;
-        loadedModel.scene.applyMatrix4(new THREE.Matrix4().makeScale(-1, 1, 1));
-        loadedModel.scene.rotateY(0.5);
-        loadedModel.scene.translateX(150);
-      });
+    let loadedModel: THREE.Group | null = null;
+    const gltfLoader = new GLTFLoader();
+    gltfLoader.load("/models/lego_space_dart/scene.gltf", (gltf) => {
+      loadedModel = gltf.scene;
 
-      const animate = () => {
-        requestAnimationFrame(animate);
+      loadedModel.applyMatrix4(new THREE.Matrix4().makeScale(-1, 1, 1));
+      loadedModel.rotateY(0.5);
+      loadedModel.translateX(150);
 
-        if (loadedModel) {
-          const currentRotationAngle = controls.getAzimuthalAngle();
+      scene.add(loadedModel);
+    });
 
-          // console.log(currentRotationAngle)
+    let animationId: number;
+    const animate = () => {
+      animationId = requestAnimationFrame(animate);
 
-          // Adjust rotation speed based on the current angle
-          if (1.1 < currentRotationAngle && currentRotationAngle < 1.9) {
-            rotationSpeed = -0.5;
-          } else if (
-            1.9 < currentRotationAngle &&
-            currentRotationAngle < Math.PI
-          ) {
-            rotationSpeed -= 0.5;
-          } else if (-1.5 < currentRotationAngle && currentRotationAngle < -1) {
-            rotationSpeed = -10;
-          } else {
-            // Normal speed in the middle section
-            rotationSpeed = -20;
-          }
+      if (loadedModel) {
+        const currentRotationAngle = controls.getAzimuthalAngle();
+
+        if (1.1 < currentRotationAngle && currentRotationAngle < 1.9) {
+          rotationSpeed = -0.5;
+        } else if (
+          1.9 < currentRotationAngle &&
+          currentRotationAngle < Math.PI
+        ) {
+          rotationSpeed -= 0.5;
+        } else if (-1.5 < currentRotationAngle && currentRotationAngle < -1) {
+          rotationSpeed = -10;
+        } else {
+          rotationSpeed = -20;
         }
 
         controls.autoRotateSpeed = rotationSpeed;
-        controls.update();
+      }
 
-        renderer.render(scene, camera);
-      };
+      controls.update();
+      renderer.render(scene, camera);
+    };
+    animate();
 
-      animate();
+    const handleResize = () => {
+      if (!containerRef.current) return;
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
+      renderer.setSize(width, height);
+    };
+    window.addEventListener("resize", handleResize);
 
-      const handleResize = () => {
-        const width = window.innerWidth;
-        const height = window.innerHeight;
-
-        camera.aspect = width / height;
-        camera.updateProjectionMatrix();
-
-        renderer.setSize(width, height);
-      };
-
-      window.addEventListener("resize", handleResize);
-
-      // Clean up the event listener when the component is unmounted
-      return () => {
-        window.removeEventListener("resize", handleResize);
-      };
-    }
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      cancelAnimationFrame(animationId);
+      controls.dispose();
+      renderer.dispose();
+      if (currentContainer.contains(renderer.domElement)) {
+        currentContainer.removeChild(renderer.domElement);
+      }
+    };
   }, []);
-  return <div className="overflow-hidden" ref={containerRef} />;
+
+  // Ensure the container is full size and allows pointer events
+  return (
+    <div
+      ref={containerRef}
+      className="w-full h-full pointer-events-auto overflow-hidden"
+    />
+  );
 };

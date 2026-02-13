@@ -5,7 +5,6 @@ import Experience from "@/components/about/experience";
 import { Separator } from "@/components/ui/separator";
 import ShopifyLogo from "@/public/images/about/shopify.png";
 import ScotiabankLogo from "@/public/images/about/scotiabank.png";
-import WonderlandLogo from "@/public/images/about/canadas-wonderland.png";
 import { ExternalLink } from "lucide-react";
 
 export default function About() {
@@ -59,6 +58,15 @@ export default function About() {
             <div className="relative">
               <Experience
                 company="Shopify"
+                jobTitle="Software Engineer - CD Team"
+                date="Present"
+                img={ShopifyLogo}
+                color="bg-emerald-300"
+                url="https://www.shopify.com"
+              />
+
+              <Experience
+                company="Shopify"
                 jobTitle="Software Engineering Intern"
                 date="Summer 2025"
                 img={ShopifyLogo}
@@ -73,15 +81,6 @@ export default function About() {
                 img={ScotiabankLogo}
                 color="bg-red-400"
                 url="https://www.scotiabank.com"
-              />
-
-              <Experience
-                company="Canada's Wonderland"
-                jobTitle="Software Engineering Intern"
-                date="Summer 2023"
-                img={WonderlandLogo}
-                color="bg-blue-400"
-                url="https://www.canadaswonderland.com"
               />
             </div>
           </section>
