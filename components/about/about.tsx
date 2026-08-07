@@ -115,6 +115,13 @@ export default function About() {
             </Link>
             <Separator orientation="vertical" />
             <Link
+              href="/blog"
+              className="text-muted-foreground hover:text-primary transition-colors"
+            >
+              blog
+            </Link>
+            <Separator orientation="vertical" />
+            <Link
               href="https://github.com/gulkaran"
               target="_blank"
               rel="noopener noreferrer"

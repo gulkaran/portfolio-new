@@ -1,8 +1,7 @@
 "use client";
 
-import { ArrowLeft } from "lucide-react";
-import Link from "next/link";
 import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid";
+import { PageShell } from "@/components/page-shell";
 import Image from "next/image";
 import notes from "./notes.json";
 import calc from "@/public/images/notes/calc.svg";
@@ -21,46 +20,29 @@ export default function Projects() {
   };
 
   return (
-    <div className="min-h-screen p-6 my-15">
-      <div className="max-w-4xl mx-auto">
-        <header className="mb-10">
-          <div className="w-fit">
-            <Link href="/">
-              <ArrowLeft className="h-6 w-6 mb-8 text-muted-foreground hover:text-white transition-colors" />
-            </Link>
-          </div>
-          <div className="flex items-center justify-between mb-2">
-            <div>
-              <h1 className="text-5xl font-bold mb-3">Notes</h1>
-              <p className="text-muted-foreground flex items-center gap-1">
-                Notes written in LaTeX!
-              </p>
-            </div>
-          </div>
-        </header>
-        <BentoGrid className="max-w-8xl mx-auto grid-cols-1 md:grid-cols-2">
-          {notes.map((item, i) => (
-            <BentoGridItem
-              key={i}
-              title={item.title}
-              description=""
-              header={
-                <Image
-                  src={mapping[item.header as keyof typeof mapping] || ""}
-                  alt={item.title}
-                  className="w-full h-auto object-contain data-[loaded=false]:animate-pulse data-[loaded=false]:bg-gray-600/10"
-                  data-loaded="false"
-                  onLoad={(event) => {
-                    event.currentTarget.setAttribute("data-loaded", "true");
-                  }}
-                />
-              }
-              icon={item.icon}
-              href={item.url}
-            />
-          ))}
-        </BentoGrid>
-      </div>
-    </div>
+    <PageShell title="Notes" subtitle="Notes written in LaTeX!">
+      <BentoGrid className="max-w-8xl mx-auto grid-cols-1 md:grid-cols-2">
+        {notes.map((item, i) => (
+          <BentoGridItem
+            key={i}
+            title={item.title}
+            description=""
+            header={
+              <Image
+                src={mapping[item.header as keyof typeof mapping] || ""}
+                alt={item.title}
+                className="w-full h-auto object-contain data-[loaded=false]:animate-pulse data-[loaded=false]:bg-gray-600/10"
+                data-loaded="false"
+                onLoad={(event) => {
+                  event.currentTarget.setAttribute("data-loaded", "true");
+                }}
+              />
+            }
+            icon={item.icon}
+            href={item.url}
+          />
+        ))}
+      </BentoGrid>
+    </PageShell>
   );
 }
