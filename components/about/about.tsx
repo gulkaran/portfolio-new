@@ -58,7 +58,7 @@ export default function About() {
             <div className="relative">
               <Experience
                 company="Shopify"
-                jobTitle="Software Engineer - CD Team"
+                jobTitle="C5 Software Engineer - CD Team"
                 date="Present"
                 img={ShopifyLogo}
                 color="bg-emerald-300"
