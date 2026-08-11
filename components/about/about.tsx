@@ -58,7 +58,7 @@ export default function About() {
             <div className="relative">
               <Experience
                 company="Shopify"
-                jobTitle="Software Engineer - CD Team"
+                jobTitle="C5 Software Engineer - CD Team"
                 date="Present"
                 img={ShopifyLogo}
                 color="bg-emerald-300"
@@ -112,6 +112,13 @@ export default function About() {
               className="text-muted-foreground hover:text-primary transition-colors"
             >
               notes
+            </Link>
+            <Separator orientation="vertical" />
+            <Link
+              href="/blog"
+              className="text-muted-foreground hover:text-primary transition-colors"
+            >
+              blog
             </Link>
             <Separator orientation="vertical" />
             <Link

@@ -1,0 +1,141 @@
+---
+title: "My friend laughed at my free streaming sites, so I built a home media server better than his Crave subscription."
+description: "A technical breakdown of my homelab journey, from knowing literally nothing about internet infrastructure to still knowing nothing but feeling like a god."
+date: "2026-08-07"
+author: "Gulkaran Singh"
+category: "Homelab & Infrastructure"
+---
+
+I've hated the idea of streaming subscriptions. You don't own anything, the show you want to watch is on Amazon Prime but not the Prime you already have (???), and the paid tier of Crave still has ads. You want me to PAY for ads on media I don't own?
+
+So naturally, I've always gravitated to those ad filled streaming sites. But wow, after watching new episodes of _Love Island_ at what looked like 360p on my TV, I was starting to wish I just had a Crave subscription. But PAY for ads? Nah. So I decided to
+do what Software Engineers do best: make it myself!
+
+### The Server (oooo its just a PC oooo)
+
+Okay so I'm building a self-hosted, personal streaming service with literally no experience. Where do we start? Well you got to have a server and those are really just PCs.
+
+First thing I did was hit up trusty Facebook Marketplace and look for an old business PC. I was specifically looking for a Dell OptiPlex Micro 3070 (Intel Core i5 8th Gen, 8GB RAM, 256GB SSD). I chose this 8th gen Intel chip for **Intel Quick Sync Video (QSV)** which is a fancy way of saying the integrated GPU can let the server handle 4K hardware transcoding on the fly with minimal CPU overhead.
+
+I chose **Ubuntu Server** for my OS to keep my system as lightweight as possible and also because I thought it was cooler since it required me to SSH (which obviously stands for Super Secretly Hack) into it from anywhere to control it. By default, these machines have their storage controller settings set to RAID On, but Ubuntu doesn't have the right drivers for this during setup so my installation kept failing. After taking a quick trip into the BIOS to change the SATA operation from RAID On -> AHCI, we were ready to set sail.
+
+### Super Secret Hacking
+
+SSH lets me remotely access my server through my MacBook, allowing me to do whatever wherever.
+
+First, I generated that SSH Key Pair. I already had one setup with GitHub but forgot about it so I ended up borking my GitHub acces but an easy fix nevertheless.
+
+```bash
+ssh-keygen -t ed25519 -C "your_email@example.com"
+```
+
+This generates a keypair, a public and private key. The private key stays hidden on my MacBook; it's what gives me permission to access the server. I then had to copy the public key to the server acting as the "lock":
+
+```bash
+ssh-copy-id gulkaran@192.168.X.X
+```
+
+Now the server knows to trust any connection coming from my MacBook. To access my server, I just open a terminal and write `ssh gulkaran@192.168.X.X`. But I wanted a better way (I just didn't want to type all those .'s). I edited my `~/.ssh/config` and added this entry
+
+```
+Host home-server
+    HostName 192.168.X.X
+    User gulkaran
+```
+
+And just like that, I type `ssh home-server` and I can super secretly hack into my own server. Nice.
+
+### The Good Stuff: Apps
+
+Okay cool, I can access my server. Now what? Well we gotta get to downloading all the apps! I deployed everything using **Docker Compose** for many reasons (too many to get into here), but I highly recommend you do the same. I put my entire stack into a single `docker-compose.yml` file.
+
+I'm not going to go over all the file configurations, but you should create your `/docker` and `/data` folders and setup the correct user permissions for them.
+Here's what my `/docker` tree looks like:
+
+```
+gulkaran@home-server:~$ tree -L 2 /docker
+/docker
+├── appdata
+│   ├── bazarr
+│   ├── caddy
+│   ├── gluetun
+│   ├── jellyfin
+│   ├── prowlarr
+│   ├── qbittorrent
+│   ├── radarr
+│   ├── seerr
+│   └── sonarr
+└── docker-compose.yml
+```
+
+Here is how the stack communicates:
+
+1. **Sonarr** – TV show manager, monitors episodes and sends 'em to get downloaded.
+2. **Radarr** – Movie manager, you guessed it, sends 'em to get downloaded.
+3. **Seerr** – Combines both apps and presents in a nicer UI so family member's can request a TV show or movie without touching the backend.
+4. **Bazarr** – Automatically downloads matching subtitles when new media is imported
+5. **Prowlarr** – Takes requests from Sonarr/Radarr, searches (legal) indexers for torrents, and chooses the best one to download
+6. **qBittorent** – Handles the downloading
+7. **Gluetun** – Routes qBittorrent through a secure VPN tunnel to ensure I never leak my IP 😱
+8. **Jellyfin** – Scans the completed files, pulls the iMDB posters, and serves the media
+9. **Caddy** – Reverse proxy to let me watch from outside my home LAN.
+
+Next up is the `/data` setup, where all the media + torrents live. The \*arr stack utilizes hardlinks to save storage. This means 2 directory entries point to the exact same inode on the disk.
+If your torrent download folder and your media folder are on different filesystems/disks, Linux has to physically copy the file to move it. So if you download a 20GB 4K movie, it takes up 40GB of space while seeding.
+With hard links, we only use 20GB.
+
+```bash
+gulkaran@home-server:~$ tree -L 2 /data
+/data
+├── media
+│   ├── movies
+│   └── tv
+└── torrents
+    ├── movies
+    └── tv
+```
+
+#### French Subtitles but I don't speak French!
+
+I got my core apps running, and everything was amazing. Until one day, I requested a TV show through Sonarr, it kept pulling a version with French hardcoded subtitles. Like je ne veux pas de ça!
+
+So I googled what to do and I installed Bazarr and problem solved within 5 minutes.
+
+### Opening myself to all types of attacks
+
+What happens if I wanted to stream my show on the GO Train, or if I wanted my family to request media on Seerr without using my 192.168.x.x IP address?
+
+**Attempt 1: Tailscale**
+Initially, I used Tailscale (a WireGuard-based mesh VPN). It had an easy setup but having to run a VPN 24/7 on my phone was just not ideal.
+
+**Attempt 2: Caddy and Cloudflare Tunnels**
+I bought a domain and setup a Cloudflare Tunnel to a subdomain so my family could now request media on Seerr. Go to something like `seerr.example.com` and boom,
+you'll see my Seerr page where you can login and request media if you have an account associated with my Jellyfin! Note you _could_ do this for Jellyfin as well but its against Cloudflare's TOS
+to stream media through a tunnel, so to not get my account banned I went with a different route (haha get it).
+
+Time to setup a reverse proxy to route standard web traffic to my server. The way this works is your router is what connects you to the public internet. My home server at the moment is
+just sitting on my home LAN which is private. How do I tell my private server at home that hey I want access? Well you talk to the router. It has ports 80 and 443 which serves HTTP/HTTPS web traffic.
+Its typically closed by most routers which means it'll drop any web requests coming to the router. But, we can do a little tinkering called port forwarding which lets our router receive those requests.
+This is pretty simple, just open your routers setting page, add port forwarding for ports 80 (HTTP) and 443 (HTTPS)!
+
+With that setup, we need something listening to port 443 to manage the web requests coming in and act as the security guard. That's where Caddy comes in. Its the small little Go server that listens
+to port 80 and 443 and redirects requests that match the Jellyfin DNS record I added.
+
+We add a DNS record to our domain which routes to our router IP. Why? This is similar to the request subdomain where we want access to Jellyfin so if they hit up a `jellyfin.example.com`, they'll have
+access to the server. The request goes to the home IP, hits the reverse proxy, Caddy's like hey I know `jellyfin.example.com` and lets us hit the _real_ home server IP. That linkage is in the Caddyfile
+and its as easy as
+
+```
+jellyfin.example.com {
+    reverse_proxy 192.168.x.x:8096
+}
+```
+
+It'll even download all the SSL certificates on first startup and keep you safe.
+
+### So whats next?
+
+The 256GB SSD wasn't going to serve me for that long. I pulled out an old 1TB HDD and bought a 12V powered USB 3.0 to SATA enclosure which my media now lives on.
+Beyond that, I'm not sure. Probably going to dogfood it for a couple of weeks, play around with quality settings and custom formats. Immich is definitely on the TODO list when storage costs come down.
+
+This process was super frustrating at times, but building an infrastructure that automatically requests, downloads, organizes, and securely serves media over an encrypted tunnel to anywhere in the world is incredibly rewarding. It's ignited a love for internet infrastructure I've never known which sounds corny but its true. It even made me write this blog! (Yes it forced me).
